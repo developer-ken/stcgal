@@ -379,6 +379,7 @@ class StcAutoProtocol(StcBaseProtocol):
                              ("stc12", r"(STC|IAP)(10|11|12)\D"),
                              ("stc15a", r"(STC|IAP)15[FL][012]0\d(E|EA|)$"),
                              ("stc15", r"(STC|IAP|IRC)15\D"),
+                             ("stc8d", r"STC8\D\d\D\d+D\d+"),
                              ("stc8", r"(STC|IAP|IRC)8")]
 
         for protocol_name, pattern in protocol_database:
@@ -1295,7 +1296,7 @@ class Stc15Protocol(Stc15AProtocol):
         calib_len = response[1]
         if len(calib_data) < 2 * calib_len:
             raise StcProtocolException("range calibration data missing")
-
+ 
         for i in range(calib_len - 1):
             count_a, count_b = struct.unpack(">HH", calib_data[2*i:2*i+4])
             trim_a, trim_b, trim_range = struct.unpack(">BxBB", challenge_data[2*i:2*i+4])
